@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Violence Detection System</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa; /* Light grey background */
+            color: #343a40; /* Dark grey text */
+            margin: 0;
+            padding: 0;
+        }
+
+        h1, h2, h3 {
+            text-align: center;
+        }
+
+        h1 {
+            color: #0056b3; /* Cool blue */
+            font-size: 2.5rem;
+            margin-top: 20px;
+        }
+
+        h2 {
+            color: #198754; /* Green accent */
+            font-size: 1.8rem;
+            margin: 20px 0;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+
+        /* Container Styling */
+        form, #streamContainer {
+            max-width: 600px;
+            margin: 20px auto;
+            background: #ffffff; /* White background for forms */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+        }
+
+        hr {
+            border: none;
+            height: 1px;
+            background: #e9ecef;
+            margin: 40px 0;
+        }
+
+        /* Form and Button Styling */
+        label {
+            display: block;
+            font-size: 1rem;
+            color: #495057;
+            margin-bottom: 10px;
+        }
+
+        input[type="file"] {
+            padding: 5px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            width: 90%;
+        }
+
+        button {
+            background-color: #007bff; /* Blue */
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background-color: #0056b3; /* Darker blue */
+        }
+
+        #startStream {
+            background-color: #198754; /* Green */
+        }
+
+        #startStream:hover {
+            background-color: #146c43; /* Darker green */
+        }
+
+        /* Live Stream Container */
+        #streamContainer {
+            display: none;
+            margin-top: 20px;
+            padding: 10px;
+            background: #ffffff;
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        img {
+            width: 100%;
+            max-width: 800px;
+            border-radius: 10px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Violence Detection System</h1>
+
+    <!-- Upload Video Form -->
+    <form id="uploadForm" method="POST" action="/upload" enctype="multipart/form-data">
+        <label for="video">Upload a video:</label>
+        <input type="file" id="video" name="video" accept="video/*" required>
+        <button type="submit">Upload</button>
+    </form>
+    <h3 id="result"></h3>
+
+    <hr>
+
+    <!-- Live Stream Section -->
+    <h2>Live Video Stream</h2>
+    <button id="startStream">Start Live Stream</button>
+    <div id="streamContainer">
+        <img id="videoStream" src="" alt="Live video stream" style="width: 100%; max-width: 800px; border: 1px solid #ccc;">
+    </div>
+
+    <script>
+        // Handle video upload form submission
+        document.getElementById('uploadForm').onsubmit = async function(event) {
+            event.preventDefault();
+            const videoFile = document.getElementById('video').files[0];
+            if (!videoFile) return;
+
+            const formData = new FormData();
+            formData.append('video', videoFile);
+
+            try {
+                const response = await fetch('/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+                document.getElementById('result').innerText = data.message;
+            } catch (error) {
+                document.getElementById('result').innerText = 'Error uploading video.';
+            }
+        };
+
+        // Handle start live stream button
+        document.getElementById('startStream').onclick = function() {
+            const streamContainer = document.getElementById('streamContainer');
+            const videoStream = document.getElementById('videoStream');
+
+            // Show the live stream container
+            streamContainer.style.display = 'block';
+
+            // Set the source of the live stream
+            videoStream.src = '/video_feed';
+        };
+    </script>
+</body>
+</html>
