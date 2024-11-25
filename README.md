@@ -74,7 +74,7 @@ Each subdirectory contains video files of respective categories.
 
 ### **Real-Time Inference with Alerts**
 
-1. Run the `flask app:
+1. Run the flask app:
     
     ```bash
     python Flask_app/app.py
