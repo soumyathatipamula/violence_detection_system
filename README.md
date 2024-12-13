@@ -66,6 +66,17 @@ Each subdirectory contains video files of respective categories.
 4. Set up a Telegram bot using BotFather and update the bot token and group ID in the script.
 
 ---
+### Telegram Bot Setup
+
+1. Open telegram, search @BotFather make sure that you open a verified bot and open it. 
+2. Click on start, now type `/newbot` , name your bot.
+3. Now give username to bot with suffix `bot` .
+4. Now, bot token will be displayed, copy it and use it in your code. 
+5. Then, Create a group in telegram. 
+6. Now, add the bot in group add by search its username. 
+7. Open group from telegram web and copy the group id from url which will be like this `-1234567890` . 
+8. Use the group id in your code.
+---
 
 ## **Usage**
 1. Run the `cctv-classification.ipynb` file
